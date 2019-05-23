@@ -1,0 +1,7 @@
+/.idea
+/vendor
+.env
+.local.env
+.staging.env
+.production.env
+/public/storage

@@ -26,6 +26,9 @@ class CreateForeignKeyTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('menu_id')->references('id')->on('menus')->onUpdate('cascade')->onDelete('cascade');
         });
+        Schema::table('students', function ($table) {
+            $table->foreign('kelas_id')->references('id')->on('kelas')->onUpdate('cascade')->onDelete('cascade');
+        });
     }
 
     /**
@@ -47,6 +50,9 @@ class CreateForeignKeyTable extends Migration
         Schema::table('user_role', function ($table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['role_id']);
+        });
+        Schema::table('students', function ($table) {
+            $table->dropForeign(['kelas_id']);
         });
     }
 }

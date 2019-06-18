@@ -8,5 +8,6 @@ Route::group(['as' => 'frontend::', 'namespace' => 'Frontend'], function(){
     Route::get('/student/register', ['as' => 'student.register', 'uses' => 'StudentController@register']);
     Route::post('/student/register', ['as' => 'student.register', 'uses' => 'StudentController@registerPost']);
     Route::get('/student/logout', ['as' => 'student.logout', 'uses' => 'StudentController@logout']);
+    Route::get('/student/profile', ['as' => 'student.profile', 'uses' => 'StudentController@profile']);
 
 });

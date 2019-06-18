@@ -43,6 +43,7 @@
                         </ul>
                     @else
                         <ul>
+                            <li><a href="/student/home">Home</a></li>
                             <li class="has-dropdown">
                                 <a href="#">Daftar Ujian</a>
                                 <ul class="dropdown">
@@ -53,7 +54,7 @@
                                 </ul>
                             </li>
                             <li><a href="#">Ujian Saya</a></li>
-                            <li><a href="#">Profile</a></li>
+                            <li><a href="/student/profile">Profile</a></li>
                         </ul>
                 </div>
             </div>

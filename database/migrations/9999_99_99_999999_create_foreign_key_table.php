@@ -28,6 +28,7 @@ class CreateForeignKeyTable extends Migration
         });
         Schema::table('students', function ($table) {
             $table->foreign('kelas_id')->references('id')->on('kelas')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('semester_id')->references('id')->on('semesters')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -53,6 +54,7 @@ class CreateForeignKeyTable extends Migration
         });
         Schema::table('students', function ($table) {
             $table->dropForeign(['kelas_id']);
+            $table->dropForeign(['semester_id']);
         });
     }
 }

@@ -6,20 +6,21 @@ class UsersAccessSeeder extends Seeder
 {
     public function __construct()
     {
-        $this->roleModel        = new \App\Models\Role;
-        $this->roleMenuModel    = new \App\Models\RoleMenu;
-        $this->userModel        = new \App\Models\User;
-        $this->menuModel        = new \App\Models\Menu;
+        $this->roleModel = new \App\Models\Role;
+        $this->roleMenuModel = new \App\Models\RoleMenu;
+        $this->userModel = new \App\Models\User;
+        $this->menuModel = new \App\Models\Menu;
+        $this->semesterModel = new \App\Models\Semester;
 
-        $this->password         = 'password';
+        $this->password = 'password';
 
-        $this->icon     = [
-            'parent'    => 'fa fa-folder',
-            'children'  => 'fa fa-caret-right',
+        $this->icon = [
+            'parent' => 'fa fa-folder',
+            'children' => 'fa fa-caret-right',
         ];
 
-        $this->prefix   = [
-            'backend'   => 'admin/',
+        $this->prefix = [
+            'backend' => 'admin/',
         ];
     }
 
@@ -30,8 +31,11 @@ class UsersAccessSeeder extends Seeder
      */
     public function run()
     {
-        $parent = $this->create_menu_user_access(1);
-        $this->create_menu_user_access_children($parent);
+        $parentUser = $this->create_menu_user_access(1);
+        $parentDataMaster = $this->create_menu_data_master(1);
+        $this->create_menu_user_access_children($parentUser);
+        $this->create_menu_data_master_children($parentDataMaster);
+        $this->create_semester();
 
         $roles = [
             'admin' => 'Admin',
@@ -53,8 +57,8 @@ class UsersAccessSeeder extends Seeder
     public function create_role($name)
     {
         return $this->roleModel->create([
-                'name' => $name
-            ]);
+            'name' => $name
+        ]);
     }
 
     public function create_role_menu($role)
@@ -68,10 +72,10 @@ class UsersAccessSeeder extends Seeder
             as $menu
         ) {
             $this->roleMenuModel->create([
-                    'role_id' => $role->id,
-                    'menu_id' => $menu->id,
-                    'access'  => implode(config('access.delimiter'), config('access.menu.'.$menu->slug.'.action'))
-                ]);
+                'role_id' => $role->id,
+                'menu_id' => $menu->id,
+                'access' => implode(config('access.delimiter'), config('access.menu.' . $menu->slug . '.action'))
+            ]);
         }
     }
 
@@ -81,12 +85,12 @@ class UsersAccessSeeder extends Seeder
     public function create_user($role, $name, $email)
     {
         $this->userModel->create([
-                'name'      => $name,
-                'email'     => $email.'@domain.com',
-                'password'  => bcrypt($this->password)
-            ])->user_role()->create([
-                'role_id'   => $role->id
-            ]);
+            'name' => $name,
+            'email' => $email . '@domain.com',
+            'password' => bcrypt($this->password)
+        ])->user_role()->create([
+            'role_id' => $role->id
+        ]);
     }
 
     /**
@@ -95,34 +99,76 @@ class UsersAccessSeeder extends Seeder
     public function create_menu_user_access($sequence)
     {
         return $this->menuModel->create([
-                'name'      => 'User Access',
-                'icon'      => $this->icon['parent'],
-                'sequence'  => $sequence
-            ])->id;
+            'name' => 'User Access',
+            'icon' => $this->icon['parent'],
+            'sequence' => $sequence
+        ])->id;
     }
+
 
     public function create_menu_user_access_children($parent)
     {
-        $sequence   = 0;
+        $sequence = 0;
 
-        $childrens  = [
-            'user'  => 'User',
-            'role'  => 'Role',
-            'menu'  => 'Menu',
+        $childrens = [
+            'user' => 'User',
+            'role' => 'Role',
+            'menu' => 'Menu',
         ];
 
         foreach ($childrens as $slug => $name) {
             $sequence++;
 
             $this->menuModel->create([
-                    'parent_id'     => $parent,
-                    'name'          => $name,
-                    'slug'          => $this->prefix['backend'].$slug,
-                    'controller'    => $name.'Controller',
-                    'model'         => $name,
-                    'icon'          => $this->icon['children'],
-                    'sequence'      => $sequence,
-                ]);
+                'parent_id' => $parent,
+                'name' => $name,
+                'slug' => $this->prefix['backend'] . $slug,
+                'controller' => $name . 'Controller',
+                'model' => $name,
+                'icon' => $this->icon['children'],
+                'sequence' => $sequence,
+            ]);
         }
+    }
+
+    public function create_menu_data_master($sequence)
+    {
+        return $this->menuModel->create([
+            'name' => 'Data Master',
+            'icon' => $this->icon['parent'],
+            'sequence' => $sequence
+        ])->id;
+    }
+
+    public function create_menu_data_master_children($parent)
+    {
+        $sequence = 0;
+
+        $childrens = [
+            'lecture' => 'Lecture',
+            'kelas' => 'Kelas',
+            'student'=>'Mahasiswa'
+        ];
+
+        foreach ($childrens as $slug => $name) {
+            $sequence++;
+
+            $this->menuModel->create([
+                'parent_id' => $parent,
+                'name' => $name,
+                'slug' => $this->prefix['backend'] . $slug,
+                'controller' => $name . 'Controller',
+                'model' => $name,
+                'icon' => $this->icon['children'],
+                'sequence' => $sequence,
+            ]);
+        }
+    }
+
+    public function create_semester()
+    {
+       for ($i=1;$i<9;$i++){
+           $this->semesterModel->create(['name'=>'Semester '.$i]);
+       }
     }
 }

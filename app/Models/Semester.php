@@ -6,14 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use App\Contracts\Model as ModelContracts;
 
 
-class Lectures extends Model implements ModelContracts
+class Semester extends Model implements ModelContracts
 {
-
-    public $table = 'lectures';
+    //
+    /**
+     * Declare sql method for custom query.
+     *
+     * @return string
+     */
+    public $table = 'semesters';
 
     protected $dates = ['created_at', 'updated_at'];
 
-    protected $fillable = ['nip', 'nama', 'no_hp','lecture_type','foto'];
+    protected $fillable = ['name'];
 
     /**
      * Declare sql method for custom query.
@@ -25,13 +30,9 @@ class Lectures extends Model implements ModelContracts
         return $this
             ->select(
                 $this->table . '.id',
-                $this->table . '.nip',
-                $this->table . '.nama',
-                $this->table . '.no_hp',
-                $this->table . '.lecture_type',
-                $this->table . '.foto'
+                $this->table . '.name'
             )->orderBy(
-                $this->table . '.nama'
+                $this->table . '.name'
             );
     }
 }

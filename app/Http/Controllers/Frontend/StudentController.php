@@ -88,6 +88,14 @@ class StudentController extends Controller
         Session::flush();
         return redirect('/student/login')->with('alert','Kamu sudah logout');
     }
+    public function profile()
+    {
+        if (!Session::get('login')) {
+            return redirect('/student/login')->with('alert', 'Kamu harus login dulu');
+        } else {
+            return view('frontend.student.profile');
+        }
 
+    }
 
 }

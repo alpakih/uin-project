@@ -20,5 +20,14 @@ return [
     'user' => [
         'name' => 'User',
     ],
+    'lecture' => [
+        'name' => 'Lecture',
+    ],
+    'kelas' => [
+        'name' => 'Kelas',
+    ],
+    'student' => [
+        'name' => 'Mahasiswa',
+    ],
 
 ];

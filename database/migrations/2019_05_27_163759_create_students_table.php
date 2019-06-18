@@ -21,14 +21,13 @@ class CreateStudentsTable extends Migration
             $table->integer('anak_ke')->nullable()->unsigned()->default(0);
             $table->string('pekerjaan_ortu')->nullable();
             $table->double('penghasilan_ortu')->nullable();
-            $table->string('semester')->nullable();
+            $table->integer('semester_id')->nullable()->unsigned();
             $table->integer('kelas_id')->nullable()->unsigned();
             $table->string('angkatan')->nullable();
             $table->string('alamat')->nullable();
             $table->string('alamat_domisili')->nullable();
             $table->string('email');
             $table->string('password');
-            $table->boolean('lecture_type')->nullable()->unsigned()->default(0)->comment('0 = Akademik, 1 = Tahfiz');
             $table->timestamps();
         });
     }

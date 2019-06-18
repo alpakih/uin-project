@@ -42,4 +42,38 @@ Route::group(['as' => 'backend::', 'namespace' => 'Backend', 'middleware' => 'au
     Route::put('menu/edit/{id}', ['as' => 'menu.update', 'middleware' => 'access:update,admin/menu', 'uses' => 'MenuController@update']);
     Route::get('menu/delete/{id}', ['as' => 'menu.delete', 'middleware' => 'access:delete,admin/menu', 'uses' => 'MenuController@delete']);
     Route::delete('menu/delete/{id}', ['as' => 'menu.destroy', 'middleware' => 'access:delete,admin/menu', 'uses' => 'MenuController@destroy']);
+
+    # LectureController
+    Route::get('lecture', ['as' => 'lecture.index', 'middleware' => 'access:index,admin/lecture', 'uses' => 'LectureController@index']);
+    Route::get('lecture/datatables', ['as' => 'lecture.datatables', 'middleware' => 'access:index,admin/lecture', 'uses' => 'LectureController@datatables']);
+    Route::get('lecture/detail/{id}', ['as' => 'lecture.detail', 'middleware' => 'access:detail,admin/lecture', 'uses' => 'LectureController@detail']);
+    Route::get('lecture/create', ['as' => 'lecture.create', 'middleware' => 'access:create,admin/lecture', 'uses' => 'LectureController@create']);
+    Route::post('lecture/create', ['as' => 'lecture.store', 'middleware' => 'access:create,admin/lecture', 'uses' => 'LectureController@store']);
+    Route::get('lecture/edit/{id}', ['as' => 'lecture.edit', 'middleware' => 'access:update,admin/lecture', 'uses' => 'LectureController@edit']);
+    Route::put('lecture/edit/{id}', ['as' => 'lecture.update', 'middleware' => 'access:update,admin/lecture', 'uses' => 'LectureController@update']);
+    Route::get('lecture/delete/{id}', ['as' => 'lecture.delete', 'middleware' => 'access:delete,admin/lecture', 'uses' => 'LectureController@delete']);
+    Route::delete('lecture/delete/{id}', ['as' => 'lecture.destroy', 'middleware' => 'access:delete,admin/lecture', 'uses' => 'LectureController@destroy']);
+
+    # KelasControler
+    Route::get('kelas', ['as' => 'kelas.index', 'middleware' => 'access:index,admin/kelas', 'uses' => 'KelasController@index']);
+    Route::get('kelas/datatables', ['as' => 'kelas.datatables', 'middleware' => 'access:index,admin/kelas', 'uses' => 'KelasController@datatables']);
+    Route::get('kelas/detail/{id}', ['as' => 'kelas.detail', 'middleware' => 'access:detail,admin/kelas', 'uses' => 'KelasController@detail']);
+    Route::get('kelas/create', ['as' => 'kelas.create', 'middleware' => 'access:create,admin/kelas', 'uses' => 'KelasController@create']);
+    Route::post('kelas/create', ['as' => 'kelas.store', 'middleware' => 'access:create,admin/kelas', 'uses' => 'KelasController@store']);
+    Route::get('kelas/edit/{id}', ['as' => 'kelas.edit', 'middleware' => 'access:update,admin/kelas', 'uses' => 'KelasController@edit']);
+    Route::put('kelas/edit/{id}', ['as' => 'kelas.update', 'middleware' => 'access:update,admin/kelas', 'uses' => 'KelasController@update']);
+    Route::get('kelas/delete/{id}', ['as' => 'kelas.delete', 'middleware' => 'access:delete,admin/kelas', 'uses' => 'KelasController@delete']);
+    Route::delete('kelas/delete/{id}', ['as' => 'kelas.destroy', 'middleware' => 'access:delete,admin/kelas', 'uses' => 'KelasController@destroy']);
+
+    # StudentController
+    Route::get('student', ['as' => 'student.index', 'middleware' => 'access:index,admin/student', 'uses' => 'StudentController@index']);
+    Route::get('student/datatables', ['as' => 'student.datatables', 'middleware' => 'access:index,admin/student', 'uses' => 'StudentController@datatables']);
+    Route::get('student/detail/{id}', ['as' => 'student.detail', 'middleware' => 'access:detail,admin/student', 'uses' => 'StudentController@detail']);
+    Route::get('student/create', ['as' => 'student.create', 'middleware' => 'access:create,admin/student', 'uses' => 'StudentController@create']);
+    Route::post('student/create', ['as' => 'student.store', 'middleware' => 'access:create,admin/student', 'uses' => 'StudentController@store']);
+    Route::get('student/edit/{id}', ['as' => 'student.edit', 'middleware' => 'access:update,admin/student', 'uses' => 'StudentController@edit']);
+    Route::put('student/edit/{id}', ['as' => 'student.update', 'middleware' => 'access:update,admin/student', 'uses' => 'StudentController@update']);
+    Route::get('student/delete/{id}', ['as' => 'student.delete', 'middleware' => 'access:delete,admin/student', 'uses' => 'StudentController@delete']);
+    Route::delete('student/delete/{id}', ['as' => 'student.destroy', 'middleware' => 'access:delete,admin/student', 'uses' => 'StudentController@destroy']);
+
 });

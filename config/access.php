@@ -20,6 +20,18 @@ return [
             'index'  => 'index',
             'action' => ['index', 'detail', 'create', 'update', 'delete'],
         ],
+        'admin/lecture' => [
+            'index'  => 'index',
+            'action' => ['index', 'detail', 'create', 'update', 'delete'],
+        ],
+        'admin/kelas' => [
+            'index'  => 'index',
+            'action' => ['index', 'detail', 'create', 'update', 'delete'],
+        ],
+        'admin/student' => [
+            'index'  => 'index',
+            'action' => ['index', 'detail', 'create', 'update', 'delete'],
+        ],
     ],
 
 ];

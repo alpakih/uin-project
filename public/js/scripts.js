@@ -4,6 +4,7 @@ var INIT = {
         this.icheck();
         this.select2();
         this.preloader();
+        this.prepareAjax();
     },
     tooltip: function(){
         $('[title], [data-title]').tooltip();
@@ -25,11 +26,18 @@ var INIT = {
     },
     preloader: function(){
         var $preloader = $('#preloader'),
-        $spinner = $preloader.find('.spinner');
+            $spinner = $preloader.find('.spinner');
         $spinner.fadeOut();
         $preloader.delay(500).fadeOut('slow');
         window.scrollTo(0, 0);
     },
+    prepareAjax: function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    }
 }
 
 var CALL = {
@@ -133,11 +141,17 @@ var MODAL = {
             var form = $(this).parents('form');
             var action = $(form).attr('action');
 
+            var formData = new FormData($(form)[0]);
+
             $.ajax({
                 url: action,
                 type: 'POST',
                 dataType: 'HTML',
-                data: $(form).serialize(),
+                data: formData,
+                enctype: "multipart/form-data",
+                cache:false,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     try {
                         data = JSON.parse(data);

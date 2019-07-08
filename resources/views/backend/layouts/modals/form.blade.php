@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog">
+<div class="modal fade" id="modal-form" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

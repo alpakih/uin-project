@@ -23,11 +23,12 @@ class CreateStudentsTable extends Migration
             $table->double('penghasilan_ortu')->nullable();
             $table->integer('semester_id')->nullable()->unsigned();
             $table->integer('kelas_id')->nullable()->unsigned();
-            $table->string('angkatan')->nullable();
+            $table->string('angkatan')->nullable(); 
             $table->string('alamat')->nullable();
             $table->string('alamat_domisili')->nullable();
             $table->string('email');
             $table->string('password');
+            $table->integer('image_id')->nullable()->unsigned();;
             $table->timestamps();
         });
     }

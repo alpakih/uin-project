@@ -26,9 +26,16 @@ class CreateForeignKeyTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('menu_id')->references('id')->on('menus')->onUpdate('cascade')->onDelete('cascade');
         });
+
         Schema::table('students', function ($table) {
             $table->foreign('kelas_id')->references('id')->on('kelas')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('semester_id')->references('id')->on('semesters')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('image_id')->references('id')->on('images')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::table('lectures', function ($table) {
+            $table->foreign('image_id')->references('id')->on('images')->onUpdate('cascade')->onDelete('cascade');
+
         });
     }
 
@@ -55,6 +62,11 @@ class CreateForeignKeyTable extends Migration
         Schema::table('students', function ($table) {
             $table->dropForeign(['kelas_id']);
             $table->dropForeign(['semester_id']);
+            $table->dropForeign(['image_id']);
+        });
+
+        Schema::table('lectures', function ($table) {
+            $table->dropForeign(['image_id']);
         });
     }
 }

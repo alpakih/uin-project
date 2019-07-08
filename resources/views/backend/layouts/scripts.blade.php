@@ -11,6 +11,7 @@
 <script type="text/javascript" src="/{{ config('path.plugins') }}/inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
 <script type="text/javascript" src="/{{ config('path.plugins') }}/select2/4.0.3/js/select2.min.js"></script>
 <script type="text/javascript" src="/{{ config('path.plugins') }}/slimscroll/1.3.8/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="/{{ config('path.plugins') }}/viewerjs/1.2.0/dist/viewer.min.js"></script>
 
 <!-- Themes -->
 <script type="text/javascript" src="/{{ config('path.themes.backend') }}/js/app.min.js"></script>

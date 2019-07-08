@@ -1,4 +1,4 @@
-{!! Form::open(['route' => [$route.'.update', encodeids($data->id)], 'method' => 'PUT']) !!}
+{!! Form::open(['route' => [$route.'.update', encodeids($data->id)], 'method' => 'PUT','files'=>true]) !!}
 <div class="box-body">
     <div class="row">
         <div class="col-md-6">
@@ -64,7 +64,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group{{ $errors->has('penghasilan_ortu') ? ' has-error' : '' }}">
-                <label class="control-label">Anak Ke{!! trans('icon.mandatory') !!}</label>
+                <label class="control-label">Penghasilan Orang Tua{!! trans('icon.mandatory') !!}</label>
                 <input type="number" class="form-control" name="penghasilan_ortu"
                        value="{!! old('penghasilan_ortu')!==null ? old('penghasilan_ortu') : $data->penghasilan_ortu!!}"
                        placeholder="Penghasilan Ortu">
@@ -75,19 +75,22 @@
                 @endif
             </div>
         </div>
-        <div class="form-group{{ $errors->has('semester_id') ? ' has-error' : '' }}">
-            <label class="control-label">Semester</label>
-            <select class="form-control select2" name="semester_id" data-placeholder="Semester">
-                <option></option>
-                @foreach ($semesters as $semester)
-                    <option value="{!! $semester->id !!}"{!! old('semester_id')!==null ? (old('semester_id')==$semester->id ? ' selected' : '') : ($data->semester_id==$semester->id ? ' selected' : '') !!}>{!! $semester->name !!}</option>
-                @endforeach
-            </select>
-            @if ($errors->has('semester_id'))
-                <span class="help-block">
+        <div class="col-md-6">
+
+            <div class="form-group{{ $errors->has('semester_id') ? ' has-error' : '' }}">
+                <label class="control-label">Semester</label>
+                <select class="form-control select2" name="semester_id" data-placeholder="Semester">
+                    <option></option>
+                    @foreach ($semesters as $semester)
+                        <option value="{!! $semester->id !!}"{!! old('semester_id')!==null ? (old('semester_id')==$semester->id ? ' selected' : '') : ($data->semester_id==$semester->id ? ' selected' : '') !!}>{!! $semester->name !!}</option>
+                    @endforeach
+                </select>
+                @if ($errors->has('semester_id'))
+                    <span class="help-block">
                     <strong>{{ $errors->first('semester_id') }}</strong>
                 </span>
-            @endif
+                @endif
+            </div>
         </div>
         <div class="col-md-6">
             <div class="form-group{{ $errors->has('angkatan') ? ' has-error' : '' }}">
@@ -104,7 +107,8 @@
         <div class="col-md-6">
             <div class="form-group{{ $errors->has('alamat') ? ' has-error' : '' }}">
                 <label class="control-label">Alamat</label>
-                <textarea class="form-control" name="alamat" placeholder="Alamat" rows="4">{!! old('alamat')!==null ? old('alamat') : $data->alamat !!}</textarea>
+                <textarea class="form-control" name="alamat" placeholder="Alamat"
+                          rows="4">{!! old('alamat')!==null ? old('alamat') : $data->alamat !!}</textarea>
                 @if ($errors->has('alamat'))
                     <span class="help-block">
                     <strong>{{ $errors->first('alamat') }}</strong>
@@ -115,10 +119,27 @@
         <div class="col-md-6">
             <div class="form-group{{ $errors->has('alamat_domisili') ? ' has-error' : '' }}">
                 <label class="control-label">Alamat</label>
-                <textarea class="form-control" name="alamat_domisili" placeholder="Alamat Domisili" rows="4">{!! old('alamat_domisili')!==null ? old('alamat_domisili') : $data->alamat_domisili !!}</textarea>
+                <textarea class="form-control" name="alamat_domisili" placeholder="Alamat Domisili"
+                          rows="4">{!! old('alamat_domisili')!==null ? old('alamat_domisili') : $data->alamat_domisili !!}</textarea>
                 @if ($errors->has('alamat_domisili'))
                     <span class="help-block">
                     <strong>{{ $errors->first('alamat_domisili') }}</strong>
+                </span>
+                @endif
+            </div>
+        </div>
+        <div class="col-md-12" align="center">
+            <div class="form-group{!! $errors->has('image_id') ? ' has-error' : '' !!}">
+                <input type="file" class="hidden img-responsive" name="image_id" id="image_id" value="{{ old('image_id') }}"
+                       placeholder="Foto" accept="image/*">
+                <input type="hidden" name="foto_old" value="{{ $data->student_image->image }}">
+                <img id="preview-foto" width="150" height="150"
+                     class="img-responsive"{!! $data->student_image->image ? ' src="'.asset(Storage::url($data->student_image->image)).'"' : ' data-src="holder.js/150x150?text=Klik untuk meng-upload gambar"' !!}>
+
+                <p>Klik gambar untuk mengedit</p>
+                @if ($errors->has('image_id'))
+                    <span class="help-block">
+                    <strong>{!! $errors->first('image_id') !!}</strong>
                 </span>
                 @endif
             </div>
@@ -128,4 +149,15 @@
         <button type="submit" class="btn btn-primary">{!! trans('button.edit') !!}</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">{!! trans('button.close') !!}</button>
     </div>
+</div>
 {!! Form::close() !!}
+
+<script>
+    $(function () {
+        var previewApk = document.getElementById('preview-foto');
+        Holder.run({
+            images: [previewApk]
+        });
+    });
+
+</script>

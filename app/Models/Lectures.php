@@ -13,7 +13,7 @@ class Lectures extends Model implements ModelContracts
 
     protected $dates = ['created_at', 'updated_at'];
 
-    protected $fillable = ['nip', 'nama', 'no_hp','lecture_type','foto'];
+    protected $fillable = ['nip', 'nama', 'no_hp', 'lecture_type', 'image_id'];
 
     /**
      * Declare sql method for custom query.
@@ -29,9 +29,14 @@ class Lectures extends Model implements ModelContracts
                 $this->table . '.nama',
                 $this->table . '.no_hp',
                 $this->table . '.lecture_type',
-                $this->table . '.foto'
+                $this->table . '.image_id'
             )->orderBy(
                 $this->table . '.nama'
             );
+    }
+
+    public function lecture_image()
+    {
+        return $this->hasOne(Images::class, 'image_id');
     }
 }

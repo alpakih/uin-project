@@ -16,7 +16,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "laravel/passport": "^1.0",
         "mdanter/ecc": "^0.4.1",
-        "indigophp/hash-compat": "^1.1"
+        "indigophp/hash-compat": "^1.1",
+      "ext-json": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

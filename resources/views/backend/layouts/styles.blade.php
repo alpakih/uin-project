@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/{{ config('path.plugins') }}/timepicker/0.5.2/css/bootstrap-timepicker.min.css">
 <link rel="stylesheet" type="text/css" href="/{{ config('path.plugins') }}/icheck/1.0.2/skins/all.css">
 <link rel="stylesheet" type="text/css" href="/{{ config('path.plugins') }}/select2/4.0.3/css/select2.min.css">
+<link rel="stylesheet" type="text/css" href="/{{ config('path.plugins') }}/viewerjs/1.2.0/dist/viewer.min.css">
 
 <!-- Themes -->
 <link rel="stylesheet" type="text/css" href="/{{ config('path.themes.backend') }}/css/AdminLTE.min.css">

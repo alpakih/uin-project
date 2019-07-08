@@ -13,7 +13,7 @@ class Students extends Model implements ModelContracts
     protected $dates = ['created_at', 'updated_at'];
 
     protected $fillable = ['nim', 'nama', 'no_hp', 'anak_ke', 'pekerjaan_ortu', 'penghasilan_ortu', 'semester_id', 'kelas_id',
-        'angkatan', 'alamat', 'alamat_domisili'];
+        'angkatan', 'alamat', 'alamat_domisili', 'email', 'password', 'image_id'];
 
 
     /**
@@ -25,9 +25,11 @@ class Students extends Model implements ModelContracts
     {
         $kelas = new Kelas();
         $semester = new Semester();
+        $image = new Images();
         return $this
             ->leftJoin($kelas->table, $kelas->table . '.id', '=', $this->table . '.kelas_id')
             ->leftJoin($semester->table, $semester->table . '.id', '=', $this->table . '.semester_id')
+            ->leftJoin($image->table, $image->table . '.id', '=', $this->table . '.image_id')
             ->select(
                 $this->table . '.id',
                 $this->table . '.nim',
@@ -40,19 +42,30 @@ class Students extends Model implements ModelContracts
                 $semester->table . '.name as semester',
                 $this->table . '.angkatan',
                 $this->table . '.alamat',
-                $this->table . '.alamat_domisili'
+                $this->table . '.alamat_domisili',
+                $this->table . '.email',
+                $this->table . '.password',
+                $this->table . '.image_id',
+                $image->table . '.image as foto'
             )->orderBy(
                 $this->table . '.nama'
             );
     }
+
     public function student_kelas()
     {
-        return $this->hasOne(Kelas::class,'kelas_id');
+        return $this->hasOne(Kelas::class, 'kelas_id');
     }
 
     public function student_semester()
     {
-        return $this->hasOne(Semester::class,'semester_id');
+        return $this->hasOne(Semester::class, 'semester_id');
+    }
+
+    public function student_image()
+    {
+        return $this->belongsTo(Images::class, 'image_id', 'id');
+
     }
 
 }

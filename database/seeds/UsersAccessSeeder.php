@@ -145,7 +145,7 @@ class UsersAccessSeeder extends Seeder
         $sequence = 0;
 
         $childrens = [
-            'lecture' => 'Lecture',
+            'lecture' => 'Dosen',
             'kelas' => 'Kelas',
             'student'=>'Mahasiswa'
         ];

@@ -86,9 +86,9 @@ class StudentController extends Controller
     public function create()
     {
 
-        $kelass = $this->kelasModel->orderBy('name')->get();
+        $class = $this->kelasModel->orderBy('name')->get();
         $semesters = $this->semesterModel->orderBy('name')->get();
-        return view($this->view . '.form.create', compact('kelass', 'semesters'));
+        return view($this->view . '.form.create', compact('class', 'semesters'));
     }
 
     public function store(Request $request)
@@ -158,12 +158,12 @@ class StudentController extends Controller
         try {
             $id = decodeids($id);
             $data = $this->model->findOrFail($id);
-            $kelass = $this->kelasModel->orderBy('name')->get();
+            $class = $this->kelasModel->orderBy('name')->get();
             $semesters = $this->semesterModel->orderBy('name')->get();
         } catch (\Exception $e) {
             abort(500);
         }
-        return view($this->view . '.form.edit', compact('data', 'kelass', 'semesters'));
+        return view($this->view . '.form.edit', compact('data', 'class', 'semesters'));
     }
 
     public function update(Request $request, $id)
@@ -191,14 +191,14 @@ class StudentController extends Controller
                 foreach ($request->file() as $key => $file) {
                     if ($request->hasFile($key)) {
                         if ($request->file($key)->isValid()) {
-                            if (!is_null($data->image_barang) || !empty($data->image_barang)) {
-                                unlink('.' . Storage::url($data->image->image));
+                            if (!is_null($data->image_id) || !empty($data->image_id)) {
+                                unlink('.' . Storage::url($data->student_image->image));
                                 $path = $file->store('images/student', 'public');
                                 $data->student_image->update(['image' => $path]);
-                                $data->$key = $data->image->id;
+                                $data->$key = $data->student_image->id;
                             } else {
                                 $path = $file->store('images/student', 'public');
-                                $key_id = $data->student_image->create(['image' => $path])->id;
+                                $key_id = $this->imageModel->create(['image' => $path])->id;
                                 $data->$key = $key_id;
                             }
                         }
@@ -249,6 +249,8 @@ class StudentController extends Controller
             $data = $this->model->findOrFail($id);
             if (!is_null($data->image_id) || !empty($data->image_id)) {
                 unlink('.' . Storage::url($data->student_image->image));
+                $data->student_image->delete(['id' => $data->image_id]);
+
             }
             $data->delete();
             action_message('delete', $this->menu);

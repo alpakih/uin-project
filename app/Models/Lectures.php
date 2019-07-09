@@ -37,6 +37,6 @@ class Lectures extends Model implements ModelContracts
 
     public function lecture_image()
     {
-        return $this->hasOne(Images::class, 'image_id');
+        return $this->belongsTo(Images::class, 'image_id');
     }
 }

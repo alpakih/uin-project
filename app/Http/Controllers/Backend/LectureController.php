@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Backend;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Images;
 use App\Models\Lectures;
 use Illuminate\Http\Request;
 
 use Datatables;
+use Illuminate\Support\Facades\Storage;
 use Validator;
 
 class LectureController extends Controller
 {
+    private $model;
+    private $imageModel;
 
     public function __construct()
     {
@@ -26,6 +30,7 @@ class LectureController extends Controller
         $this->share();
         # init model
         $this->model = new Lectures();
+        $this->imageModel = new Images();
     }
 
     public function index()
@@ -56,6 +61,10 @@ class LectureController extends Controller
                     }
                     return $action;
                 })
+                ->editColumn('lecture_type', function ($data) {
+                    return lecture_type($data->lecture_type);
+                }
+                )
                 ->make(true);
         } catch (\Exception $e) {
             abort(500);
@@ -81,6 +90,7 @@ class LectureController extends Controller
 
     public function store(Request $request)
     {
+
         try {
             $validator = Validator::make($request->all(), [
                 'nip' => 'required|max:255',
@@ -96,9 +106,25 @@ class LectureController extends Controller
             }
 
             $data = $this->model;
+            if ($request->file() != null) {
+                foreach ($request->file() as $key => $file) {
+                    if ($request->hasFile($key)) {
+                        if ($request->file($key)->isValid()) {
+                            $path = $file->store('images/lecture', 'public');
+                            $key_id = $this->imageModel->create(['image' => $path])->id;
+                            $data->$key = $key_id;
+                        }
+                    } else {
+                        $key_id = !empty($request->$key . '_old') ? $request->$key . '_old' : null;
+                        $data->$key = $key_id;
+                    }
+                }
+            }
+
             $data->nip = $request->nip;
             $data->nama = $request->nama;
             $data->no_hp = $request->no_hp;
+            $data->lecture_type = $request->lecture_type;
             $data->save();
 
 
@@ -113,7 +139,8 @@ class LectureController extends Controller
     {
         try {
             $id = decodeids($id);
-            $data = $this->model->findOrFail($id);
+            $data = $this->model->sql()->findOrFail($id);
+
         } catch (\Exception $e) {
             abort(500);
         }
@@ -124,7 +151,7 @@ class LectureController extends Controller
     {
         try {
             $id = decodeids($id);
-            $data = $this->model->findOrFail($id);
+            $data = $this->model->sql()->findOrFail($id);
 
             $validator = Validator::make($request->all(), [
                 'nip' => 'required|max:255',
@@ -134,21 +161,44 @@ class LectureController extends Controller
 
             if ($validator->fails()) {
                 return redirect()
-                    ->route($this->route.'.edit', encodeids($id))
+                    ->route($this->route . '.edit', encodeids($id))
                     ->withErrors($validator)
                     ->withInput();
+            }
+
+            if ($request->file() != null) {
+                foreach ($request->file() as $key => $file) {
+                    if ($request->hasFile($key)) {
+                        if ($request->file($key)->isValid()) {
+                            if (!is_null($data->image_id) || !empty($data->image_id)) {
+                                unlink('.' . Storage::url($data->lecture_image->image));
+                                $path = $file->store('images/lecture', 'public');
+                                $data->lecture_image->update(['image' => $path]);
+                                $data->$key = $data->lecture_image->id;
+                            } else {
+                                $path = $file->store('images/lecture', 'public');
+                                $key_id = $this->imageModel->create(['image' => $path])->id;
+                                $data->$key = $key_id;
+                            }
+                        }
+                    } else {
+                        $key_id = !empty($request->$key . '_old') ? $request->$key . '_old' : null;
+                        $data->$key = $key_id;
+                    }
+                }
             }
 
             $data->nip = $request->nip;
             $data->nama = $request->nama;
             $data->no_hp = $request->no_hp;
+            $data->lecture_type = $request->lecture_type;
             $data->update();
 
             action_message('update', $this->menu);
         } catch (\Exception $e) {
             abort(500);
         }
-        return json_encode(['redirect' => route($this->route.'.index')]);
+        return json_encode(['redirect' => route($this->route . '.index')]);
     }
 
 
@@ -160,7 +210,7 @@ class LectureController extends Controller
         } catch (\Exception $e) {
             abort(500);
         }
-        return view($this->view.'.form.delete', compact('data'));
+        return view($this->view . '.form.delete', compact('data'));
     }
 
     public function destroy($id)
@@ -168,11 +218,16 @@ class LectureController extends Controller
         try {
             $id = decodeids($id);
             $data = $this->model->findOrFail($id);
+            if (!is_null($data->image_id) || !empty($data->image_id)) {
+                unlink('.' . Storage::url($data->lecture_image->image));
+                $data->lecture_image->delete(['id' => $data->image_id]);
+
+            }
             $data->delete();
             action_message('delete', $this->menu);
         } catch (\Exception $e) {
             abort(500);
         }
-        return redirect()->route($this->route.'.index');
+        return redirect()->route($this->route . '.index');
     }
 }

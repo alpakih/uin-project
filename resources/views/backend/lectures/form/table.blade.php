@@ -6,6 +6,7 @@
                 <th>Nip</th>
                 <th>Nama</th>
                 <th>No Hp</th>
+                <th>Tipe Dosen</th>
                 <th>{!! trans('label.action') !!}</th>
             </tr>
         </thead>

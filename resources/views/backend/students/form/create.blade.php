@@ -107,7 +107,7 @@
                         <label class="control-label">Kelas</label>
                         <select class="form-control select2" name="kelas_id" data-placeholder="Kelas">
                             <option></option>
-                            @foreach ($kelass as $kelas)
+                            @foreach ($class as $kelas)
                                 <option value="{!! $kelas->id !!}"{!! old('kelas_id')==$kelas->id ? ' selected' : '' !!}>{!! $kelas->name !!}</option>
                             @endforeach
                         </select>
@@ -196,17 +196,10 @@
         </div>
         <div class="box-footer">
             <button type="submit" class="btn btn-primary">{!! trans('button.save') !!}</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">{!! trans('button.close') !!}</button>
+            <button type="reset" class="btn btn-default">Cancel</button>
         </div>
         {!! Form::close() !!}
-        <script>
-            $(function () {
-                var previewApk = document.getElementById('preview-foto');
-                Holder.run({
-                    images: [previewApk]
-                });
-            });
-        </script>
+
     </section>
 @endsection
 

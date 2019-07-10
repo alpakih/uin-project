@@ -29,5 +29,11 @@ return [
     'student' => [
         'name' => 'Mahasiswa',
     ],
+    'corousel' => [
+        'name' => 'Banner',
+    ],
+    'announcement' => [
+        'name' => 'Pengumuman',
+    ],
 
 ];

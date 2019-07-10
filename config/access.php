@@ -32,6 +32,14 @@ return [
             'index'  => 'index',
             'action' => ['index', 'detail', 'create', 'update', 'delete'],
         ],
-    ],
+        'admin/corousel' => [
+            'index'  => 'index',
+            'action' => ['index', 'detail', 'create', 'update', 'delete'],
+        ],
+        'admin/announcement' => [
+            'index'  => 'index',
+            'action' => ['index', 'detail', 'create', 'update', 'delete'],
+        ],
+    ]
 
 ];

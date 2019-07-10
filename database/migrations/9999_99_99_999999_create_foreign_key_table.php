@@ -35,7 +35,10 @@ class CreateForeignKeyTable extends Migration
 
         Schema::table('lectures', function ($table) {
             $table->foreign('image_id')->references('id')->on('images')->onUpdate('cascade')->onDelete('cascade');
+        });
 
+        Schema::table('corousels', function ($table) {
+            $table->foreign('image_id')->references('id')->on('images')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -66,6 +69,9 @@ class CreateForeignKeyTable extends Migration
         });
 
         Schema::table('lectures', function ($table) {
+            $table->dropForeign(['image_id']);
+        });
+        Schema::table('corousels', function ($table) {
             $table->dropForeign(['image_id']);
         });
     }

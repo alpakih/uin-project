@@ -1,7 +1,7 @@
 <?php
 
-Route::group(['as' => 'backend::', 'namespace' => 'Backend', 'middleware' => 'auth', 'prefix' => 'admin'], function(){
-    Route::get('/', ['as' => 'welcome', function(){
+Route::group(['as' => 'backend::', 'namespace' => 'Backend', 'middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::get('/', ['as' => 'welcome', function () {
         return redirect()->route('backend::dashboard.index');
     }]);
 
@@ -75,5 +75,27 @@ Route::group(['as' => 'backend::', 'namespace' => 'Backend', 'middleware' => 'au
     Route::put('student/edit/{id}', ['as' => 'student.update', 'middleware' => 'access:update,admin/student', 'uses' => 'StudentController@update']);
     Route::get('student/delete/{id}', ['as' => 'student.delete', 'middleware' => 'access:delete,admin/student', 'uses' => 'StudentController@delete']);
     Route::delete('student/delete/{id}', ['as' => 'student.destroy', 'middleware' => 'access:delete,admin/student', 'uses' => 'StudentController@destroy']);
+
+    # Banner
+    Route::get('corousel', ['as' => 'corousel.index', 'middleware' => 'access:index,admin/corousel', 'uses' => 'CorouselController@index']);
+    Route::get('corousel/datatables', ['as' => 'corousel.datatables', 'middleware' => 'access:index,admin/corousel', 'uses' => 'CorouselController@datatables']);
+    Route::get('corousel/detail/{id}', ['as' => 'corousel.detail', 'middleware' => 'access:detail,admin/corousel', 'uses' => 'CorouselController@detail']);
+    Route::get('corousel/create', ['as' => 'corousel.create', 'middleware' => 'access:create,admin/corousel', 'uses' => 'CorouselController@create']);
+    Route::post('corousel/create', ['as' => 'corousel.store', 'middleware' => 'access:create,admin/corousel', 'uses' => 'CorouselController@store']);
+    Route::get('corousel/edit/{id}', ['as' => 'corousel.edit', 'middleware' => 'access:update,admin/corousel', 'uses' => 'CorouselController@edit']);
+    Route::put('corousel/edit/{id}', ['as' => 'corousel.update', 'middleware' => 'access:update,admin/corousel', 'uses' => 'CorouselController@update']);
+    Route::get('corousel/delete/{id}', ['as' => 'corousel.delete', 'middleware' => 'access:delete,admin/corousel', 'uses' => 'CorouselController@delete']);
+    Route::delete('corousel/delete/{id}', ['as' => 'corousel.destroy', 'middleware' => 'access:delete,admin/corousel', 'uses' => 'CorouselController@destroy']);
+
+    # Pengumuman
+    Route::get('announcement', ['as' => 'announcement.index', 'middleware' => 'access:index,admin/announcement', 'uses' => 'AnnouncementController@index']);
+    Route::get('announcement/datatables', ['as' => 'announcement.datatables', 'middleware' => 'access:index,admin/announcement', 'uses' => 'AnnouncementController@datatables']);
+    Route::get('announcement/detail/{id}', ['as' => 'announcement.detail', 'middleware' => 'access:detail,admin/announcement', 'uses' => 'AnnouncementController@detail']);
+    Route::get('announcement/create', ['as' => 'announcement.create', 'middleware' => 'access:create,admin/announcement', 'uses' => 'AnnouncementController@create']);
+    Route::post('announcement/create', ['as' => 'announcement.store', 'middleware' => 'access:create,admin/announcement', 'uses' => 'AnnouncementController@store']);
+    Route::get('announcement/edit/{id}', ['as' => 'announcement.edit', 'middleware' => 'access:update,admin/announcement', 'uses' => 'AnnouncementController@edit']);
+    Route::put('announcement/edit/{id}', ['as' => 'announcement.update', 'middleware' => 'access:update,admin/announcement', 'uses' => 'AnnouncementController@update']);
+    Route::get('announcement/delete/{id}', ['as' => 'announcement.delete', 'middleware' => 'access:delete,admin/announcement', 'uses' => 'AnnouncementController@delete']);
+    Route::delete('announcement/delete/{id}', ['as' => 'announcement.destroy', 'middleware' => 'access:delete,admin/announcement', 'uses' => 'AnnouncementController@destroy']);
 
 });

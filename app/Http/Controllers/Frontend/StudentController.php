@@ -62,32 +62,33 @@ class StudentController extends Controller
         return redirect('/student/login')->with('alert-success', 'Register Berhasil');
     }
 
-    public function loginPost(Request $request){
+    public function loginPost(Request $request)
+    {
 
         $email = $request->email;
         $password = $request->password;
 
-        $data = Students::where('email',$email)->first();
-        if($data){
-            if(Hash::check($password,$data->password)){
-                Session::put('nama',$data->nama);
-                Session::put('email',$data->email);
-                Session::put('login',TRUE);
+        $data = Students::where('email', $email)->first();
+        if ($data) {
+            if (Hash::check($password, $data->password)) {
+                Session::put('nama', $data->nama);
+                Session::put('email', $data->email);
+                Session::put('login', TRUE);
                 return redirect('/student/home');
+            } else {
+                return redirect('/student/login')->with('alert', 'Password atau Email, Salah !');
             }
-            else{
-                return redirect('/student/login')->with('alert','Password atau Email, Salah !');
-            }
-        }
-        else{
-            return redirect('/student/login')->with('alert','Password atau Email, Salah!');
+        } else {
+            return redirect('/student/login')->with('alert', 'Password atau Email, Salah!');
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         Session::flush();
-        return redirect('/student/login')->with('alert','Kamu sudah logout');
+        return redirect('/student/login')->with('alert', 'Kamu sudah logout');
     }
+
     public function profile()
     {
         if (!Session::get('login')) {

@@ -43,3 +43,10 @@ if (!function_exists('lecture_type')) {
         }
     }
 }
+
+if (!function_exists('table_image')) {
+    function table_image($path)
+    {
+        return '<img width="150" height="150" id="images" class="img-responsive" src="' . asset(Storage::url($path->lecture_image->image)) . '">';
+    }
+}

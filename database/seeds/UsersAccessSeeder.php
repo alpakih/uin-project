@@ -1,16 +1,21 @@
 <?php
 
+use App\Models\Menu;
+use App\Models\Role;
+use App\Models\RoleMenu;
+use App\Models\Semester;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UsersAccessSeeder extends Seeder
 {
     public function __construct()
     {
-        $this->roleModel = new \App\Models\Role;
-        $this->roleMenuModel = new \App\Models\RoleMenu;
-        $this->userModel = new \App\Models\User;
-        $this->menuModel = new \App\Models\Menu;
-        $this->semesterModel = new \App\Models\Semester;
+        $this->roleModel = new Role;
+        $this->roleMenuModel = new RoleMenu;
+        $this->userModel = new User;
+        $this->menuModel = new Menu;
+        $this->semesterModel = new Semester;
 
         $this->password = 'password';
 
@@ -33,8 +38,10 @@ class UsersAccessSeeder extends Seeder
     {
         $parentUser = $this->create_menu_user_access(1);
         $parentDataMaster = $this->create_menu_data_master(1);
+        $parentCms = $this->create_menu_cms(1);
         $this->create_menu_user_access_children($parentUser);
         $this->create_menu_data_master_children($parentDataMaster);
+        $this->create_menu_cms_children($parentCms);
         $this->create_semester();
 
         $roles = [
@@ -148,6 +155,39 @@ class UsersAccessSeeder extends Seeder
             'lecture' => 'Dosen',
             'kelas' => 'Kelas',
             'student'=>'Mahasiswa'
+        ];
+
+        foreach ($childrens as $slug => $name) {
+            $sequence++;
+
+            $this->menuModel->create([
+                'parent_id' => $parent,
+                'name' => $name,
+                'slug' => $this->prefix['backend'] . $slug,
+                'controller' => $name . 'Controller',
+                'model' => $name,
+                'icon' => $this->icon['children'],
+                'sequence' => $sequence,
+            ]);
+        }
+    }
+
+    public function create_menu_cms($sequence)
+    {
+        return $this->menuModel->create([
+            'name' => 'CMS',
+            'icon' => $this->icon['parent'],
+            'sequence' => $sequence
+        ])->id;
+    }
+
+    public function create_menu_cms_children($parent)
+    {
+        $sequence = 0;
+
+        $childrens = [
+            'corousel' => 'Banner',
+            'announcement' => 'Pengumuman',
         ];
 
         foreach ($childrens as $slug => $name) {

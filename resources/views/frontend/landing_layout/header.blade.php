@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-4 intro-wrap">
             <div class="intro-flex">
-                <div class="one-third color-1 animate-box">
+                <div class="one-third color-2 animate-box">
                     <span class="icon"><i class="flaticon-professor"></i></span>
                     <div class="desc">
                         <h3>Daftar Komprehesif</h3>
@@ -16,7 +16,7 @@
                         <p><a href="#" class="view-more">Lihat</a></p>
                     </div>
                 </div>
-                <div class="one-third color-2 animate-box">
+                <div class="one-third color-3 animate-box">
                     <span class="icon"><i class="flaticon-diploma"></i></span>
                     <div class="desc">
                         <h3>Daftar Munaqosah</h3>

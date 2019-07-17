@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Kelas;
+use App\Models\Semester;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +14,9 @@ use Illuminate\Support\Facades\Session;
 
 class StudentController extends Controller
 {
+    private $semesterModel;
+    private  $kelasModel;
+
     public function __construct()
     {
         parent::__construct();
@@ -21,6 +26,9 @@ class StudentController extends Controller
         $this->view = $this->views['frontend'] . 'student';
         # share parameters
         $this->share();
+
+        $this->semesterModel = new Semester();
+        $this->kelasModel= new Kelas();
     }
 
     public function index()
@@ -40,7 +48,11 @@ class StudentController extends Controller
 
     public function register()
     {
-        return view('frontend.auth.register');
+
+        $class = $this->kelasModel->orderBy('name')->get();
+        $semesters = $this->semesterModel->orderBy('name')->get();
+
+        return view('frontend.auth.register',compact('class','semesters'));
     }
 
     public function registerPost(Request $request)

@@ -118,78 +118,20 @@
                     </div>
                 </div>
                 <div class="row">
+                    @foreach($announcements as $announcement)
                     <div class="col-md-4 animate-box">
                         <div class="classes">
-                            <div class="classes-img" style="background-image: url(images/classes-1.jpg);">
-                                <span class="price text-center"><small>$450</small></span>
+                            <div class="classes-img" style="background-image: url({!!  asset(Storage::url($announcement->announcement_image->image)) !!})">
+                                <span class="text-center price">Posted by:<br>{!! $announcement->posted_by !!}</span>
                             </div>
                             <div class="desc">
-                                <h3><a href="#">Developing Mobile Apps</a></h3>
-                                <p>Pointing has no control about the blind texts it is an almost unorthographic life</p>
-                                <p><a href="#" class="btn-learn">Learn More <i class="icon-arrow-right3"></i></a></p>
+                                <h3><a href="#">{!! $announcement->title !!}</a></h3>
+                                <p>{!! substr($announcement->contents,0,300) !!}....</p>
+                                <p><a href="/announcement/{!! $announcement->id !!}" class="btn-learn">Learn More <i class="icon-arrow-right3"></i></a></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 animate-box">
-                        <div class="classes">
-                            <div class="classes-img" style="background-image: url(images/classes-2.jpg);">
-                                <span class="price text-center"><small>$450</small></span>
-                            </div>
-                            <div class="desc">
-                                <h3><a href="#">Convert PSD to HTML</a></h3>
-                                <p>Pointing has no control about the blind texts it is an almost unorthographic life</p>
-                                <p><a href="#" class="btn-learn">Learn More <i class="icon-arrow-right3"></i></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 animate-box">
-                        <div class="classes">
-                            <div class="classes-img" style="background-image: url(images/classes-3.jpg);">
-                                <span class="price text-center"><small>$450</small></span>
-                            </div>
-                            <div class="desc">
-                                <h3><a href="#">Convert HTML to WordPress</a></h3>
-                                <p>Pointing has no control about the blind texts it is an almost unorthographic life</p>
-                                <p><a href="#" class="btn-learn">Learn More <i class="icon-arrow-right3"></i></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 animate-box">
-                        <div class="classes">
-                            <div class="classes-img" style="background-image: url(images/classes-4.jpg);">
-                                <span class="price text-center"><small>$450</small></span>
-                            </div>
-                            <div class="desc">
-                                <h3><a href="#">Developing Mobile Apps</a></h3>
-                                <p>Pointing has no control about the blind texts it is an almost unorthographic life</p>
-                                <p><a href="#" class="btn-learn">Learn More <i class="icon-arrow-right3"></i></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 animate-box">
-                        <div class="classes">
-                            <div class="classes-img" style="background-image: url(images/classes-5.jpg);">
-                                <span class="price text-center"><small>$450</small></span>
-                            </div>
-                            <div class="desc">
-                                <h3><a href="#">Learned Smoke Effects</a></h3>
-                                <p>Pointing has no control about the blind texts it is an almost unorthographic life</p>
-                                <p><a href="#" class="btn-learn">Learn More <i class="icon-arrow-right3"></i></a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 animate-box">
-                        <div class="classes">
-                            <div class="classes-img" style="background-image: url(images/classes-6.jpg);">
-                                <span class="price text-center"><small>$450</small></span>
-                            </div>
-                            <div class="desc">
-                                <h3><a href="#">Convert HTML to WordPress</a></h3>
-                                <p>Pointing has no control about the blind texts it is an almost unorthographic life</p>
-                                <p><a href="#" class="btn-learn">Learn More <i class="icon-arrow-right3"></i></a></p>
-                            </div>
-                        </div>
-                    </div>
+                        @endforeach
                 </div>
             </div>
         </div>
@@ -204,45 +146,21 @@
                     </div>
                 </div>
                 <div class="row">
+                    @foreach($teachers as $teacher)
                     <div class="col-md-3 col-sm-3 animate-box">
                         <div class="trainers-entry">
-                            <div class="trainer-img" style="background-image: url(images/person1.jpg)"></div>
+                            <div class="trainer-img" style="background-image: url({!! asset(Storage::url($teacher->lecture_image->image))  !!})"></div>
                             <div class="desc">
-                                <h3>Olivia Young</h3>
-                                <span>Teacher</span>
+                                <h3>{!! $teacher->nama !!}</h3>
+                                @if($teacher->lecture_type == 0)
+                                <span>Akademik</span>
+                                @else
+                                <span>Tahfiz</span>
+                                @endif
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-3 col-sm-3 animate-box">
-                        <div class="trainers-entry">
-                            <div class="trainer-img" style="background-image: url(images/person2.jpg)"></div>
-                            <div class="desc">
-                                <h3>Daniel Anderson</h3>
-                                <span>Professor</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-3 animate-box">
-                        <div class="trainers-entry">
-                            <div class="trainer-img" style="background-image: url(images/person3.jpg)"></div>
-                            <div class="desc">
-                                <h3>David Brook</h3>
-                                <span>Teacher</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-3 animate-box">
-                        <div class="trainers-entry">
-                            <div class="trainer-img" style="background-image: url(images/person4.jpg)"></div>
-                            <div class="desc">
-                                <h3>Brigeth Smith</h3>
-                                <span>Teacher</span>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

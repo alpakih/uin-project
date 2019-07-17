@@ -12,7 +12,7 @@ class Announcement extends Model  implements ModelContracts
 
     protected $dates = ['created_at', 'updated_at'];
 
-    protected $fillable = ['title','content','posted_by'];
+    protected $fillable = ['title','contents','posted_by','image_id'];
 
     /**
      * Declare sql method for custom query.
@@ -25,10 +25,16 @@ class Announcement extends Model  implements ModelContracts
             ->select(
                 $this->table . '.id',
                 $this->table . '.title',
-                $this->table . '.content',
-                $this->table . '.posted_by'
+                $this->table . '.contents',
+                $this->table . '.posted_by',
+                $this->table . '.image_id'
             )->orderBy(
                 $this->table . '.title'
             );
+    }
+
+    public function announcement_image()
+    {
+        return $this->belongsTo(Images::class, 'image_id');
     }
 }

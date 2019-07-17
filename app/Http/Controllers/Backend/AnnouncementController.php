@@ -6,14 +6,17 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
+use App\Models\Images;
 use Illuminate\Http\Request;
 
 use Datatables;
+use Illuminate\Support\Facades\Storage;
 use Validator;
 
 class AnnouncementController extends Controller
 {
     private $model;
+    private $imageModel;
 
     public function __construct()
     {
@@ -27,6 +30,7 @@ class AnnouncementController extends Controller
         # share parameters
         $this->share();
         $this->model = new Announcement();
+        $this->imageModel = new Images();
 
     }
 
@@ -51,7 +55,7 @@ class AnnouncementController extends Controller
                         $action .= '<a data-href="' . route($this->route . '.detail', encodeids($data->id)) . '" class="btn btn-xs btn-success btn-modal-action" title="' . trans('label.detail') . '" data-title="' . trans('form.detail', ['menu' => $this->menu]) . '" data-icon="fa fa-search fa-fw" data-background="modal-primary">' . trans('icon.detail') . '</a>';
                     }
                     if (check_access('update', $this->slug)) {
-                        $action .= '<a data-href="' . route($this->route . '.edit', encodeids($data->id)) . '" class="btn btn-xs btn-primary btn-modal-form" title="' . trans('label.edit') . '" data-title="' . trans('form.edit', ['menu' => $this->menu]) . '" data-icon="fa fa-edit fa-fw" data-background="modal-primary">' . trans('icon.edit') . '</a>';
+                        $action .= '<a href="' . route($this->route . '.edit', encodeids($data->id)) . '" class="btn btn-xs btn-primary " title="' . trans('label.edit') . '" data-title="' . trans('form.edit', ['menu' => $this->menu]) . '" data-icon="fa fa-edit fa-fw" data-background="modal-primary">' . trans('icon.edit') . '</a>';
                     }
                     if (check_access('delete', $this->slug)) {
                         $action .= '<a data-href="' . route($this->route . '.delete', encodeids($data->id)) . '" class="btn btn-xs btn-danger btn-modal-action" title="' . trans('label.delete') . '" data-title="' . trans('form.delete', ['menu' => $this->menu]) . '" data-icon="fa fa-trash-o fa-fw" data-background="modal-danger">' . trans('icon.delete') . '</a>';
@@ -88,7 +92,6 @@ class AnnouncementController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:255',
-                'content' => 'required',
                 'posted_by' => 'required'
             ]);
 
@@ -101,8 +104,23 @@ class AnnouncementController extends Controller
 
             $data = $this->model;
 
+            if ($request->file() != null) {
+                foreach ($request->file() as $key => $file) {
+                    if ($request->hasFile($key)) {
+                        if ($request->file($key)->isValid()) {
+                            $path = $file->store('images/announcement', 'public');
+                            $key_id = $this->imageModel->create(['image' => $path])->id;
+                            $data->$key = $key_id;
+                        }
+                    } else {
+                        $key_id = !empty($request->$key . '_old') ? $request->$key . '_old' : null;
+                        $data->$key = $key_id;
+                    }
+                }
+            }
+
             $data->title = $request->title;
-            $data->content = $request->contents;
+            $data->contents = $request->contents;
             $data->posted_by = $request->posted_by;
             $data->save();
 
@@ -111,7 +129,7 @@ class AnnouncementController extends Controller
         } catch (\Exception $e) {
             abort(500);
         }
-        return json_encode(['redirect' => route($this->route . '.index')]);
+        return redirect()->route($this->route . '.index');
     }
 
     public function edit($id)
@@ -129,12 +147,12 @@ class AnnouncementController extends Controller
     public function update(Request $request, $id)
     {
         try {
+
             $id = decodeids($id);
             $data = $this->model->sql()->findOrFail($id);
 
             $validator = Validator::make($request->all(), [
                 'title' => 'required|max:255',
-                'contents' => 'required',
                 'posted_by' => 'required',
             ]);
 
@@ -144,9 +162,30 @@ class AnnouncementController extends Controller
                     ->withErrors($validator)
                     ->withInput();
             }
+            if ($request->file() != null) {
+                foreach ($request->file() as $key => $file) {
+                    if ($request->hasFile($key)) {
+                        if ($request->file($key)->isValid()) {
+                            if (!is_null($data->image_id) || !empty($data->image_id)) {
+                                unlink('.' . Storage::url($data->announcement_image->image));
+                                $path = $file->store('images/announcement', 'public');
+                                $data->announcement_image->update(['image' => $path]);
+                                $data->$key = $data->announcement_image->id;
+                            } else {
+                                $path = $file->store('images/announcement', 'public');
+                                $key_id = $this->imageModel->create(['image' => $path])->id;
+                                $data->$key = $key_id;
+                            }
+                        }
+                    } else {
+                        $key_id = !empty($request->$key . '_old') ? $request->$key . '_old' : null;
+                        $data->$key = $key_id;
+                    }
+                }
+            }
 
             $data->title = $request->title;
-            $data->content= $request->contents;
+            $data->contents= $request->contents;
             $data->posted_by= $request->posted_by;
             $data->update();
 
@@ -173,7 +212,14 @@ class AnnouncementController extends Controller
         try {
             $id = decodeids($id);
             $data = $this->model->findOrFail($id);
-            $data->delete();
+
+            if (!is_null($data->image_id) || !empty($data->image_id)) {
+                unlink('.' . Storage::url($data->announcement_image->image));
+                $data->delete();
+                $data->announcement_image->delete(['id' => $data->image_id]);
+            }else{
+                $data->delete();
+            }
             action_message('delete', $this->menu);
         } catch (\Exception $e) {
             abort(500);

@@ -215,10 +215,13 @@ class CorouselController extends Controller
             $data = $this->model->findOrFail($id);
             if (!is_null($data->image_id) || !empty($data->image_id)) {
                 unlink('.' . Storage::url($data->corousel_image->image));
+                $data->delete();
                 $data->corousel_image->delete(['id' => $data->image_id]);
 
+            }else{
+                $data->delete();
+
             }
-            $data->delete();
             action_message('delete', $this->menu);
         } catch (\Exception $e) {
             abort(500);

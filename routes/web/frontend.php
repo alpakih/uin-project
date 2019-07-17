@@ -2,6 +2,9 @@
 
 Route::group(['as' => 'frontend::', 'namespace' => 'Frontend'], function(){
     Route::get('home', ['as' => 'home.index', 'uses' => 'HomeController@index']);
+    Route::get('about', ['as' => 'home.about', 'uses' => 'HomeController@about']);
+    Route::get('contact', ['as' => 'home.contact', 'uses' => 'HomeController@contact']);
+    Route::get('announcement', ['as' => 'home.index', 'uses' => 'HomeController@announcement']);
     Route::get('/student/home', ['as' => 'student.home', 'uses' => 'StudentController@index']);
     Route::get('/student/login', ['as' => 'student.login', 'uses' => 'StudentController@login']);
     Route::post('/student/login', ['as' => 'student.login', 'uses' => 'StudentController@loginPost']);

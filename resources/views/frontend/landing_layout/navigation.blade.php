@@ -31,15 +31,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                    <div id="colorlib-logo"><a href="/">UIN SGD</a></div>
+                    <div id="colorlib-logo"><a href="/home">UIN SGD</a></div>
                 </div>
                 <div class="col-md-10 text-right menu-1">
                     @if (!\Session::has('login'))
                         <ul>
-                            <li class="active"><a href="/">Home</a></li>
-                            <li><a href="#">Tentang</a></li>
-                            <li><a href="#">Berita</a></li>
-                            <li><a href="#">Kontak</a></li>
+                            <li class="active"><a href="/home">Home</a></li>
+                            <li><a href="/about">Tentang</a></li>
+                            <li><a href="/announcement">Pengumuman</a></li>
+                            <li><a href="/contact">Kontak</a></li>
                         </ul>
                     @else
                         <ul>

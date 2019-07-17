@@ -96,7 +96,7 @@
 
             <div class="form-group{{ $errors->has('kelas_id') ? ' has-error' : '' }}">
                 <label class="control-label">Kelas</label>
-                <select class="form-control select2" name="semester_id" data-placeholder="Semester">
+                <select class="form-control select2" name="kelas_id" data-placeholder="Semester">
                     <option></option>
                     @foreach ($class as $kelas)
                         <option value="{!! $kelas->id !!}"{!! old('kelas_id')!==null ? (old('kelas_id')==$kelas->id ? ' selected' : '') : ($data->kelas_id==$kelas->id ? ' selected' : '') !!}>{!! $kelas->name !!}</option>
